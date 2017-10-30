@@ -98,7 +98,7 @@ var jsonCircles = [
                    ];
 
 var canvasWidth = 1000;
-var canvasHeight = 6000;
+var canvasHeight = 7000;
 var margin = 25;
 
 var svgContainer = d3.select("body").append("svg")
@@ -106,7 +106,7 @@ var svgContainer = d3.select("body").append("svg")
                                     .attr("height", canvasHeight+margin);
 
 var dateStart = new Date('2010.01.01');
-var dateEnd = new Date('2019.01.01');
+var dateEnd = new Date('2020.01.01');
 
 var a = canvasHeight/(dateEnd.getTime()-dateStart.getTime());
 var b = -canvasHeight*dateStart.getTime()/(dateEnd.getTime()-dateStart.getTime());
