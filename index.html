@@ -52,8 +52,8 @@ var jsonCircles = [
                    {"date1": new Date('2017/8/24 18:51:00'), "site":"VAFB", "status":"success", "label":"FORMOSAT-5" },
                    {"date1": new Date('2017/9/7 14:00:00'), "site":"K39A", "status":"success", "label":"Boing X-37B/OTV-5" },
                    {"date1": new Date('2017/10/9 12:37:00'), "site":"VAFB", "status":"success", "label":"Iridium NEXT 21-30" },
-                   {"date1": new Date('2017/10/11 22:53:00'), "radius": 4, "site":"K39A", "status":"success", "label":"SES-11/EchoStar" },
-                   {"date1": new Date('2017/10/30 19:34:00'), "date2": new Date('2017/10/30 21:58:00'), "radius": 4, "site":"K39A", "status":"pending", "label":"Koreasat 5A" },
+                   {"date1": new Date('2017/10/11 22:53:00'), "site":"K39A", "status":"success", "label":"SES-11/EchoStar" },
+                   {"date1": new Date('2017/10/30 19:34:00'), "site":"K39A", "status":"success", "label":"Koreasat 5A" },
                    {"date1": new Date('2017/11/16 01:00:00'), "date2": new Date('2017/11/16 03:00:00'), "radius": 4, "site":"K39A", "status":"pending", "label":"Zuma"},
                    {"date1": new Date('2017/12/4 19:52:00'), "date2": new Date('2017/12/4 19:52:00'), "radius": 4, "site":"CC40", "status":"pending", "label":"CRS-13"},
                    {"date1": new Date('2017/12/23 01:26:00'), "date2": new Date('2017/12/23 01:26:00'), "radius": 4, "site":"VAFB", "status":"pending", "label":"Iridium NEXT 31-40"},
@@ -89,21 +89,27 @@ var jsonCircles = [
                    {"date1": new Date('2018/1/1 00:00:00'), "date2": new Date('2018/12/31 23:59:59'), "site":"", "status":"pending", "label":"PSN-6"},
                    {"date1": new Date('2018/1/1 00:00:00'), "date2": new Date('2018/12/31 23:59:59'), "site":"VAFB", "status":"pending", "label":"SARah 1"},
                    ];
+
 var canvasWidth = 1000;
 var canvasHeight = 6000;
 var margin = 25;
+
 var svgContainer = d3.select("body").append("svg")
                                     .attr("width", canvasWidth+margin)
                                     .attr("height", canvasHeight+margin);
+
 var dateStart = new Date('2010.01.01');
 var dateEnd = new Date('2019.01.01');
+
 var a = canvasHeight/(dateEnd.getTime()-dateStart.getTime());
 var b = -canvasHeight*dateStart.getTime()/(dateEnd.getTime()-dateStart.getTime());
+
 var groups = svgContainer.selectAll("g")
                             .data(jsonCircles)
                             .enter()
                             .append("g")
                             .attr("transform",function(d,i){return "translate(" + (d.status == "pending" ? a * (d.date2.getTime()-d.date1.getTime()) + margin : margin ) + "," + (d.status == "pending" ? a * (d.date2.getTime()+d.date1.getTime())/2 + b + a*(Math.random()/2-0.25)*(d.date2.getTime()-d.date1.getTime()) : a * d.date1.getTime() + b)+")"});
+
 var circleAttributes = groups.append("circle")
                         .attr("cx",0)
                         .attr("cy",0)
@@ -117,12 +123,14 @@ var textAttributes = groups.append("text")
                         .attr("font-family","sans-serif")
                         .attr("font-size",11)
                         .text( function(d){ return d.label; });
+
 svgContainer.append("svg:line")
             .attr("x1", 0)
             .attr("x2", canvasWidth)
             .attr("y1", a * Date.now() + b)
             .attr("y2", a * Date.now() + b)
             .style("stroke", "black");
+
 // add grey line for each new year
 for (var year = 2010; year < 2020; year++)
 {
@@ -142,6 +150,8 @@ for (var year = 2010; year < 2020; year++)
     .attr("fill","lightgrey")
     .text(year);
 }
+
+
                         
 </script>
 </body>
