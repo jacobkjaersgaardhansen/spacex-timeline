@@ -3,98 +3,113 @@
     <meta charset="UTF-8" />
     <meta name="google" content="notranslate" />
     <meta http-equiv="Content-Language" content="en_US" />
+    
+    <style>
+        div.tooltip {
+            position: absolute;
+            text-align: center;
+            width: 180px;
+            height: 28px;
+            padding: 2px;
+            font: 11px sans-serif;
+            background: lightsteelblue;
+            border: 0px;
+            border-radius: 8px;
+            pointer-events: none;
+        }
+    </style>
 </head>
 
 <body>
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script>
 var jsonCircles = [
-                   {"date1": new Date('2010/6/4 18:45:00'), "site":"CC40", "status":"success", "label":"Dragon Spacecraft Qualification Unit" },
-                   {"date1": new Date('2010/12/8 15:43:00'), "site":"CC40", "status":"success", "label":"Dragon demo flight" },
-                   {"date1": new Date('2012/5/22 07:44:00'), "site":"CC40", "status":"success", "label":"Dragon demo flight C2+" },
-                   {"date1": new Date('2012/10/8 00:35:00'), "site":"CC40", "status":"partial failure", "label":"CRS-1 / Orbcomm-OG2" },
-                   {"date1": new Date('2013/3/1 15:10:00'), "site":"CC40", "status":"success", "label":"CRS-2" },
-                   {"date1": new Date('2013/9/29 16:00:00'), "site":"VAFB", "status":"success", "label":"CASSIOPE" },
-                   {"date1": new Date('2013/12/3 22:41:00'), "site":"CC40", "status":"success", "label":"SES-8" },
-                   {"date1": new Date('2014/1/6 22:06:00'), "site":"CC40", "status":"success", "label":"Thaicom 6" },
-                   {"date1": new Date('2014/4/18 19:25:00'), "site":"CC40", "status":"success", "label":"CRS-3" },
-                   {"date1": new Date('2014/7/14 15:15:00'), "site":"CC40", "status":"success", "label":"OG2 Mission 1" },
-                   {"date1": new Date('2014/8/5 08:00:00'), "site":"CC40", "status":"success", "label":"AsiaSat 8" },
-                   {"date1": new Date('2014/9/7 05:00:00'), "site":"CC40", "status":"success", "label":"AsiaSat-6" },
-                   {"date1": new Date('2014/9/21 05:52:00'), "site":"CC40", "status":"success", "label":"CRS-4" },
-                   {"date1": new Date('2015/1/10 09:47:00'), "site":"CC40", "status":"success", "label":"CRS-5" },
-                   {"date1": new Date('2015/2/11 23:03:00'), "site":"CC40", "status":"success", "label":"DSCOVR" },
-                   {"date1": new Date('2015/3/2 03:50:00'), "site":"CC40", "status":"success", "label":"ABS-3A Eutelsat" },
-                   {"date1": new Date('2015/4/14 20:10:00'), "site":"CC40", "status":"success", "label":"CRS-6" },
-                   {"date1": new Date('2015/4/27 23:03:00'), "site":"CC40", "status":"success", "label":"TürkmenÄlem / MonacoSAT" },
-                   {"date1": new Date('2015/6/28 14:21:00'), "site":"CC40", "status":"failure", "label":"CRS-7" },
-                   {"date1": new Date('2015/12/22 01:29:00'), "site":"CC40", "status":"success", "label":"OG2 Mission 2" },
-                   {"date1": new Date('2016/1/17 18:42:00'), "site":"VAFB", "status":"success", "label":"Jason-3" },
-                   {"date1": new Date('2016/3/4 23:35:00'), "site":"CC40", "status":"success", "label":"SES-9" },
-                   {"date1": new Date('2016/4/8 20:43:00'), "site":"CC40", "status":"success", "label":"CRS-8" },
-                   {"date1": new Date('2016/5/6 05:21:00'), "site":"CC40", "status":"success", "label":"JCSAT-14" },
-                   {"date1": new Date('2016/5/27 21:39:00'), "site":"CC40", "status":"success", "label":"Thaicom 8" },
-                   {"date1": new Date('2016/6/15 14:29:00'), "site":"CC40", "status":"success", "label":"ABS-2A Eutelsat" },
-                   {"date1": new Date('2016/7/18 04:45:00'), "site":"CC40", "status":"success", "label":"CRS-9" },
-                   {"date1": new Date('2016/8/14 05:26:00'), "site":"CC40", "status":"success", "label":"JCSAT-16" },
-                   {"date1": new Date('2016/9/1 13:07:00'), "site":"CC40", "status":"failure", "label":"Amos-6" },
-                   {"date1": new Date('2017/1/14 17:54:00'), "site":"VAFB", "status":"success", "label":"Iridium NEXT 1-10" },
-                   {"date1": new Date('2017/2/19 14:39:00'), "site":"K39A", "status":"success", "label":"CRS-10" },
-                   {"date1": new Date('2017/3/16 06:00:00'), "site":"K39A", "status":"success", "label":"EchoStar 23" },
-                   {"date1": new Date('2017/3/30 22:27:00'), "site":"K39A", "status":"success", "label":"SES-10" },
-                   {"date1": new Date('2017/5/1 11:15:00'), "site":"K39A", "status":"success", "label":"NROL-76" },
-                   {"date1": new Date('2017/5/15 23:21:00'), "site":"K39A", "status":"success", "label":"Inmarsat-5 F4" },
-                   {"date1": new Date('2017/6/3 21:07:00'), "site":"K39A", "status":"success", "label":"CRS-11" },
-                   {"date1": new Date('2017/6/23 19:10:00'), "site":"K39A", "status":"success", "label":"BulgariaSat-1" },
-                   {"date1": new Date('2017/6/25 20:25:00'), "site":"VAFB", "status":"success", "label":"Iridium NEXT 11-20" },
-                   {"date1": new Date('2017/7/5 23:38:00'), "site":"K39A", "status":"success", "label":"Intelsat 35e" },
-                   {"date1": new Date('2017/8/14 16:31:00'), "site":"K39A", "status":"success", "label":"CRS-12" },
-                   {"date1": new Date('2017/8/24 18:51:00'), "site":"VAFB", "status":"success", "label":"FORMOSAT-5" },
-                   {"date1": new Date('2017/9/7 14:00:00'), "site":"K39A", "status":"success", "label":"Boing X-37B/OTV-5" },
-                   {"date1": new Date('2017/10/9 12:37:00'), "site":"VAFB", "status":"success", "label":"Iridium NEXT 21-30" },
-                   {"date1": new Date('2017/10/11 22:53:00'), "site":"K39A", "status":"success", "label":"SES-11/EchoStar" },
-                   {"date1": new Date('2017/10/30 19:34:00'), "site":"K39A", "status":"success", "label":"Koreasat 5A" },
-                   {"date1": new Date('2017/11/16 01:00:00'), "date2": new Date('2017/11/16 03:00:00'), "radius": 4, "site":"K39A", "status":"pending", "label":"Zuma"},
-                   {"date1": new Date('2017/12/4 19:52:00'), "date2": new Date('2017/12/4 19:52:00'), "radius": 4, "site":"CC40", "status":"pending", "label":"CRS-13"},
-                   {"date1": new Date('2017/12/23 01:26:00'), "date2": new Date('2017/12/23 01:26:00'), "radius": 4, "site":"VAFB", "status":"pending", "label":"Iridium NEXT 31-40"},
-                   {"date1": new Date('2017/12/1 00:00:00'), "date2": new Date('2017/12/31 23:59:59'), "radius": 4, "site":"CC40", "status":"pending", "label":"Hispasat 30W-6"},
-                   {"date1": new Date('2017/12/29 00:00:00'), "date2": new Date('2017/12/31 23:59:59'), "radius": 4, "site":"K39A", "status":"pending", "label":"Heavy Maiden Flight"},
-                   {"date1": new Date('2018/1/1 00:00:00'), "date2": new Date('2018/1/31 23:59:59'), "radius": 4, "status":"pending", "label":"SES-16/GovSat-1"},
-                   {"date1": new Date('2018/1/30 00:00:00'), "date2": new Date('2018/1/30 23:59:59'), "radius": 4, "site":"VAFB", "status":"pending", "label":"Paz"},
-                   {"date1": new Date('2018/2/9 00:00:00'), "date2": new Date('2018/2/9 23:59:59'), "site":"", "status":"pending", "label":"CRS-14"},
-                   {"date1": new Date('2018/2/1 00:00:00'), "date2": new Date('2018/2/28 23:59:59'), "site":"",  "status":"pending", "label":"Bangabandhu-1"},
-                   {"date1": new Date('2018/2/1 00:00:00'), "date2": new Date('2018/2/28 23:59:59'), "site":"VAFB", "status":"pending", "label":"Iridium NEXT 41-50"},
-                   {"date1": new Date('2018/3/20 00:00:00'), "date2": new Date('2018/3/20 23:59:59'), "status":"pending", "label":"TESS"},
-                   {"date1": new Date('2018/1/1 00:00:00'), "date2": new Date('2018/4/30 23:59:59'), "site":"VAFB", "status":"pending", "label":"SSO-A"},
-                   {"date1": new Date('2018/1/1 00:00:00'), "date2": new Date('2018/4/30 23:59:59'), "site":"K39A", "status":"pending", "label":"ArabSat 6A"},
-                   {"date1": new Date('2018/4/1 00:00:00'), "date2": new Date('2018/4/30 23:59:59'), "site":"VAFB", "status":"pending", "label":"Iridium NEXT 51-55 / GRACE-FO"},
-                   {"date1": new Date('2018/4/1 00:00:00'), "date2": new Date('2018/4/30 23:59:59'), "site":"K39A", "status":"pending", "label":"SpX-DM1"},
-                   {"date1": new Date('2018/4/1 00:00:00'), "date2": new Date('2018/4/30 23:59:59'), "site":"K39A", "status":"pending", "label":"Crew Dragon in-flight abort test"},
-                   {"date1": new Date('2018/4/1 00:00:00'), "date2": new Date('2018/4/30 23:59:59'), "site":"", "status":"pending", "label":"CRS-15"},
-                   {"date1": new Date('2018/4/30 00:00:00'), "date2": new Date('2018/4/30 23:59:59'), "site":"K39A", "status":"pending", "label":"DSX, FormoSat-7 and others (Heavy)"},
-                   {"date1": new Date('2018/4/1 00:00:00'), "date2": new Date('2018/6/30 23:59:59'), "site":"", "status":"pending", "label":"Telstar 18V"},
-                   {"date1": new Date('2018/4/1 00:00:00'), "date2": new Date('2018/6/30 23:59:59'), "site":"", "status":"pending", "label":"Telstar 19V"},
-                   {"date1": new Date('2018/6/1 00:00:00'), "date2": new Date('2018/6/30 23:59:59'), "site":"VAFB", "status":"pending", "label":"Iridium NEXT 56-65"},
-                   {"date1": new Date('2018/6/1 00:00:00'), "date2": new Date('2018/6/30 23:59:59'), "site":"VAFB", "status":"pending", "label":"SAOCOM 1A / ITASAT-1"},
-                   {"date1": new Date('2018/8/1 00:00:00'), "date2": new Date('2018/8/31 23:59:59'), "site":"VAFB", "status":"pending", "label":"Iridium NEXT 66-75"},
-                   {"date1": new Date('2018/8/1 00:00:00'), "date2": new Date('2018/8/31 23:59:59'), "site":"", "status":"pending", "label":"CRS-16"},
-                   {"date1": new Date('2018/8/1 00:00:00'), "date2": new Date('2018/8/31 23:59:59'), "site":"K39A", "status":"pending", "label":"SpX-DM2"},
-                   {"date1": new Date('2018/8/1 00:00:00'), "date2": new Date('2018/8/31 23:59:59'), "site":"", "status":"pending", "label":"Telcom 4"},
-                   {"date1": new Date('2018/7/1 00:00:00'), "date2": new Date('2018/9/30 23:59:59'), "site":"VAFB", "status":"pending", "label":"RADARSAT Constellation"},
-                   {"date1": new Date('2018/10/1 00:00:00'), "date2": new Date('2018/10/31 23:59:59'), "site":"", "status":"pending", "label":"CRS-17"},
-                   {"date1": new Date('2018/8/1 00:00:00'), "date2": new Date('2018/12/31 23:59:59'), "site":"K39A", "status":"pending", "label":"Lunar Tourism Mission (Heavy)"},
-                   {"date1": new Date('2018/12/1 00:00:00'), "date2": new Date('2018/12/31 23:59:59'), "site":"", "status":"pending", "label":"CRS-18"},
-                   {"date1": new Date('2018/1/1 00:00:00'), "date2": new Date('2018/12/31 23:59:59'), "site":"", "status":"pending", "label":"Es'hail 2"},
-                   {"date1": new Date('2018/10/1 00:00:00'), "date2": new Date('2018/12/31 23:59:59'), "site":"", "status":"pending", "label":"GiSAT-1"},
-                   {"date1": new Date('2018/1/1 00:00:00'), "date2": new Date('2018/12/31 23:59:59'), "site":"", "status":"pending", "label":"PSN-6"},
-                   {"date1": new Date('2018/1/1 00:00:00'), "date2": new Date('2018/12/31 23:59:59'), "site":"VAFB", "status":"pending", "label":"SARah 1"},
-                   {"date1": new Date('2019/2/1 00:00:00'), "date2": new Date('2019/2/28 23:59:59'), "site":"", "status":"pending", "label":"GPS-III A-3"},
-                   {"date1": new Date('2019/5/1 00:00:00'), "date2": new Date('2019/5/31 23:59:59'), "site":"", "status":"pending", "label":"CRS-19"},
-                   {"date1": new Date('2019/1/1 00:00:00'), "date2": new Date('2019/6/30 23:59:59'), "site":"", "status":"pending", "label":"JCSat-18 / Kacific 1"},
-                   {"date1": new Date('2019/1/1 00:00:00'), "date2": new Date('2019/12/31 23:59:59'), "site":"", "status":"pending", "label":"Amos 17"},
-                   {"date1": new Date('2019/1/1 00:00:00'), "date2": new Date('2019/12/31 23:59:59'), "site":"VAFB", "status":"pending", "label":"SAOCOM"},
-                   {"date1": new Date('2019/1/1 00:00:00'), "date2": new Date('2019/12/31 23:59:59'), "site":"VAFB", "status":"pending", "label":"SARah 2/3"},
-                   {"date1": new Date('2019/1/1 00:00:00'), "date2": new Date('2019/12/31 23:59:59'), "site":"", "status":"pending", "label":"SXM 7"},    
+                   {"date1": new Date('2010/6/4 18:45:00Z'), "site":"CC40", "status":"success", "label":"Dragon Spacecraft Qualification Unit" },
+                   {"date1": new Date('2010/12/8 15:43:00Z'), "site":"CC40", "status":"success", "label":"Dragon demo flight" },
+                   {"date1": new Date('2012/5/22 07:44:00Z'), "site":"CC40", "status":"success", "label":"Dragon demo flight C2+" },
+                   {"date1": new Date('2012/10/8 00:35:00Z'), "site":"CC40", "status":"partial failure", "label":"CRS-1 / Orbcomm-OG2" },
+                   {"date1": new Date('2013/3/1 15:10:00Z'), "site":"CC40", "status":"success", "label":"CRS-2" },
+                   {"date1": new Date('2013/9/29 16:00:00Z'), "site":"VAFB", "status":"success", "label":"CASSIOPE" },
+                   {"date1": new Date('2013/12/3 22:41:00Z'), "site":"CC40", "status":"success", "label":"SES-8" },
+                   {"date1": new Date('2014/1/6 22:06:00Z'), "site":"CC40", "status":"success", "label":"Thaicom 6" },
+                   {"date1": new Date('2014/4/18 19:25:00Z'), "site":"CC40", "status":"success", "label":"CRS-3" },
+                   {"date1": new Date('2014/7/14 15:15:00Z'), "site":"CC40", "status":"success", "label":"OG2 Mission 1" },
+                   {"date1": new Date('2014/8/5 08:00:00Z'), "site":"CC40", "status":"success", "label":"AsiaSat 8" },
+                   {"date1": new Date('2014/9/7 05:00:00Z'), "site":"CC40", "status":"success", "label":"AsiaSat-6" },
+                   {"date1": new Date('2014/9/21 05:52:00Z'), "site":"CC40", "status":"success", "label":"CRS-4" },
+                   {"date1": new Date('2015/1/10 09:47:00Z'), "site":"CC40", "status":"success", "label":"CRS-5" },
+                   {"date1": new Date('2015/2/11 23:03:00Z'), "site":"CC40", "status":"success", "label":"DSCOVR" },
+                   {"date1": new Date('2015/3/2 03:50:00Z'), "site":"CC40", "status":"success", "label":"ABS-3A Eutelsat" },
+                   {"date1": new Date('2015/4/14 20:10:00Z'), "site":"CC40", "status":"success", "label":"CRS-6" },
+                   {"date1": new Date('2015/4/27 23:03:00Z'), "site":"CC40", "status":"success", "label":"TürkmenÄlem / MonacoSAT" },
+                   {"date1": new Date('2015/6/28 14:21:00Z'), "site":"CC40", "status":"failure", "label":"CRS-7" },
+                   {"date1": new Date('2015/12/22 01:29:00Z'), "site":"CC40", "status":"success", "label":"OG2 Mission 2" },
+                   {"date1": new Date('2016/1/17 18:42:00Z'), "site":"VAFB", "status":"success", "label":"Jason-3" },
+                   {"date1": new Date('2016/3/4 23:35:00Z'), "site":"CC40", "status":"success", "label":"SES-9" },
+                   {"date1": new Date('2016/4/8 20:43:00Z'), "site":"CC40", "status":"success", "label":"CRS-8" },
+                   {"date1": new Date('2016/5/6 05:21:00Z'), "site":"CC40", "status":"success", "label":"JCSAT-14" },
+                   {"date1": new Date('2016/5/27 21:39:00Z'), "site":"CC40", "status":"success", "label":"Thaicom 8" },
+                   {"date1": new Date('2016/6/15 14:29:00Z'), "site":"CC40", "status":"success", "label":"ABS-2A Eutelsat" },
+                   {"date1": new Date('2016/7/18 04:45:00Z'), "site":"CC40", "status":"success", "label":"CRS-9" },
+                   {"date1": new Date('2016/8/14 05:26:00Z'), "site":"CC40", "status":"success", "label":"JCSAT-16" },
+                   {"date1": new Date('2016/9/1 13:07:00Z'), "site":"CC40", "status":"failure", "label":"Amos-6" },
+                   {"date1": new Date('2017/1/14 17:54:00Z'), "site":"VAFB", "status":"success", "label":"Iridium NEXT 1-10" },
+                   {"date1": new Date('2017/2/19 14:39:00Z'), "site":"K39A", "status":"success", "label":"CRS-10" },
+                   {"date1": new Date('2017/3/16 06:00:00Z'), "site":"K39A", "status":"success", "label":"EchoStar 23" },
+                   {"date1": new Date('2017/3/30 22:27:00Z'), "site":"K39A", "status":"success", "label":"SES-10" },
+                   {"date1": new Date('2017/5/1 11:15:00Z'), "site":"K39A", "status":"success", "label":"NROL-76" },
+                   {"date1": new Date('2017/5/15 23:21:00Z'), "site":"K39A", "status":"success", "label":"Inmarsat-5 F4" },
+                   {"date1": new Date('2017/6/3 21:07:00Z'), "site":"K39A", "status":"success", "label":"CRS-11" },
+                   {"date1": new Date('2017/6/23 19:10:00Z'), "site":"K39A", "status":"success", "label":"BulgariaSat-1" },
+                   {"date1": new Date('2017/6/25 20:25:00Z'), "site":"VAFB", "status":"success", "label":"Iridium NEXT 11-20" },
+                   {"date1": new Date('2017/7/5 23:38:00Z'), "site":"K39A", "status":"success", "label":"Intelsat 35e" },
+                   {"date1": new Date('2017/8/14 16:31:00Z'), "site":"K39A", "status":"success", "label":"CRS-12" },
+                   {"date1": new Date('2017/8/24 18:51:00Z'), "site":"VAFB", "status":"success", "label":"FORMOSAT-5" },
+                   {"date1": new Date('2017/9/7 14:00:00Z'), "site":"K39A", "status":"success", "label":"Boing X-37B/OTV-5" },
+                   {"date1": new Date('2017/10/9 12:37:00Z'), "site":"VAFB", "status":"success", "label":"Iridium NEXT 21-30" },
+                   {"date1": new Date('2017/10/11 22:53:00Z'), "site":"K39A", "status":"success", "label":"SES-11/EchoStar" },
+                   {"date1": new Date('2017/10/30 19:34:00Z'), "site":"K39A", "status":"success", "label":"Koreasat 5A" },
+                   {"date1": new Date('2017/11/16 01:00:00Z'), "date2": new Date('2017/11/16 03:00:00Z'), "site":"K39A", "status":"pending", "label":"Zuma"},
+                   {"date1": new Date('2017/12/4 19:52:00Z'), "date2": new Date('2017/12/4 19:52:00Z'), "site":"CC40", "status":"pending", "label":"CRS-13"},
+                   {"date1": new Date('2017/12/23 01:26:00Z'), "date2": new Date('2017/12/23 01:26:00Z'), "site":"VAFB", "status":"pending", "label":"Iridium NEXT 31-40"},
+                   {"date1": new Date('2017/12/1 00:00:00Z'), "date2": new Date('2017/12/31 23:59:59Z'), "site":"CC40", "status":"pending", "label":"Hispasat 30W-6"},
+                   {"date1": new Date('2017/12/20 00:00:00Z'), "date2": new Date('2017/12/31 23:59:59Z'), "site":"K39A", "status":"pending", "label":"Heavy Maiden Flight"},
+                   {"date1": new Date('2018/1/1 00:00:00Z'), "date2": new Date('2018/1/31 23:59:59Z'), "status":"pending", "label":"SES-16/GovSat-1"},
+                   {"date1": new Date('2018/1/30 00:00:00Z'), "date2": new Date('2018/1/30 23:59:59Z'), "site":"VAFB", "status":"pending", "label":"Paz"},
+                   {"date1": new Date('2018/2/9 00:00:00Z'), "date2": new Date('2018/2/9 23:59:59Z'), "site":"", "status":"pending", "label":"CRS-14"},
+                   {"date1": new Date('2018/2/1 00:00:00Z'), "date2": new Date('2018/2/28 23:59:59Z'), "site":"",  "status":"pending", "label":"Bangabandhu-1"},
+                   {"date1": new Date('2018/2/1 00:00:00Z'), "date2": new Date('2018/2/28 23:59:59Z'), "site":"VAFB", "status":"pending", "label":"Iridium NEXT 41-50"},
+                   {"date1": new Date('2018/3/20 00:00:00Z'), "date2": new Date('2018/3/20 23:59:59Z'), "status":"pending", "label":"TESS"},
+                   {"date1": new Date('2018/1/1 00:00:00Z'), "date2": new Date('2018/4/30 23:59:59Z'), "site":"VAFB", "status":"pending", "label":"SSO-A"},
+                   {"date1": new Date('2018/1/1 00:00:00Z'), "date2": new Date('2018/4/30 23:59:59Z'), "site":"K39A", "status":"pending", "label":"ArabSat 6A"},
+                   {"date1": new Date('2018/4/1 00:00:00Z'), "date2": new Date('2018/4/30 23:59:59Z'), "site":"VAFB", "status":"pending", "label":"Iridium NEXT 51-55 / GRACE-FO"},
+                   {"date1": new Date('2018/4/1 00:00:00Z'), "date2": new Date('2018/4/30 23:59:59Z'), "site":"K39A", "status":"pending", "label":"SpX-DM1"},
+                   {"date1": new Date('2018/4/1 00:00:00Z'), "date2": new Date('2018/4/30 23:59:59Z'), "site":"K39A", "status":"pending", "label":"Crew Dragon in-flight abort test"},
+                   {"date1": new Date('2018/4/1 00:00:00Z'), "date2": new Date('2018/4/30 23:59:59Z'), "site":"", "status":"pending", "label":"CRS-15"},
+                   {"date1": new Date('2018/4/30 00:00:00Z'), "date2": new Date('2018/4/30 23:59:59Z'), "site":"K39A", "status":"pending", "label":"DSX, FormoSat-7 and others (Heavy)"},
+                   {"date1": new Date('2018/4/1 00:00:00Z'), "date2": new Date('2018/6/30 23:59:59Z'), "site":"", "status":"pending", "label":"Telstar 18V"},
+                   {"date1": new Date('2018/4/1 00:00:00Z'), "date2": new Date('2018/6/30 23:59:59Z'), "site":"", "status":"pending", "label":"Telstar 19V"},
+                   {"date1": new Date('2018/6/1 00:00:00Z'), "date2": new Date('2018/6/30 23:59:59Z'), "site":"VAFB", "status":"pending", "label":"Iridium NEXT 56-65"},
+                   {"date1": new Date('2018/6/1 00:00:00Z'), "date2": new Date('2018/6/30 23:59:59Z'), "site":"VAFB", "status":"pending", "label":"SAOCOM 1A / ITASAT-1"},
+                   {"date1": new Date('2018/8/1 00:00:00Z'), "date2": new Date('2018/8/31 23:59:59Z'), "site":"VAFB", "status":"pending", "label":"Iridium NEXT 66-75"},
+                   {"date1": new Date('2018/8/1 00:00:00Z'), "date2": new Date('2018/8/31 23:59:59Z'), "site":"", "status":"pending", "label":"CRS-16"},
+                   {"date1": new Date('2018/8/1 00:00:00Z'), "date2": new Date('2018/8/31 23:59:59Z'), "site":"K39A", "status":"pending", "label":"SpX-DM2"},
+                   {"date1": new Date('2018/8/1 00:00:00Z'), "date2": new Date('2018/8/31 23:59:59Z'), "site":"", "status":"pending", "label":"Telcom 4"},
+                   {"date1": new Date('2018/7/1 00:00:00Z'), "date2": new Date('2018/9/30 23:59:59Z'), "site":"VAFB", "status":"pending", "label":"RADARSAT Constellation"},
+                   {"date1": new Date('2018/10/1 00:00:00Z'), "date2": new Date('2018/10/31 23:59:59Z'), "site":"", "status":"pending", "label":"CRS-17"},
+                   {"date1": new Date('2018/8/1 00:00:00Z'), "date2": new Date('2018/12/31 23:59:59Z'), "site":"K39A", "status":"pending", "label":"Lunar Tourism Mission (Heavy)"},
+                   {"date1": new Date('2018/12/1 00:00:00Z'), "date2": new Date('2018/12/31 23:59:59Z'), "site":"", "status":"pending", "label":"CRS-18"},
+                   {"date1": new Date('2018/1/1 00:00:00Z'), "date2": new Date('2018/12/31 23:59:59Z'), "site":"", "status":"pending", "label":"Es'hail 2"},
+                   {"date1": new Date('2018/10/1 00:00:00Z'), "date2": new Date('2018/12/31 23:59:59Z'), "site":"", "status":"pending", "label":"GiSAT-1"},
+                   {"date1": new Date('2018/1/1 00:00:00Z'), "date2": new Date('2018/12/31 23:59:59Z'), "site":"", "status":"pending", "label":"PSN-6"},
+                   {"date1": new Date('2018/1/1 00:00:00Z'), "date2": new Date('2018/12/31 23:59:59Z'), "site":"VAFB", "status":"pending", "label":"SARah 1"},
+                   {"date1": new Date('2019/2/1 00:00:00Z'), "date2": new Date('2019/2/28 23:59:59Z'), "site":"", "status":"pending", "label":"GPS-III A-3"},
+                   {"date1": new Date('2019/5/1 00:00:00Z'), "date2": new Date('2019/5/31 23:59:59Z'), "site":"", "status":"pending", "label":"CRS-19"},
+                   {"date1": new Date('2019/1/1 00:00:00Z'), "date2": new Date('2019/6/30 23:59:59Z'), "site":"", "status":"pending", "label":"JCSat-18 / Kacific 1"},
+                   {"date1": new Date('2019/1/1 00:00:00Z'), "date2": new Date('2019/12/31 23:59:59Z'), "site":"", "status":"pending", "label":"Amos 17"},
+                   {"date1": new Date('2019/1/1 00:00:00Z'), "date2": new Date('2019/12/31 23:59:59Z'), "site":"VAFB", "status":"pending", "label":"SAOCOM"},
+                   {"date1": new Date('2019/1/1 00:00:00Z'), "date2": new Date('2019/12/31 23:59:59Z'), "site":"VAFB", "status":"pending", "label":"SARah 2/3"},
+                   {"date1": new Date('2019/1/1 00:00:00Z'), "date2": new Date('2019/12/31 23:59:59Z'), "site":"", "status":"pending", "label":"SXM 7"},
                    ];
 
 var canvasWidth = 1000;
@@ -111,11 +126,15 @@ var dateEnd = new Date('2020.01.01');
 var a = canvasHeight/(dateEnd.getTime()-dateStart.getTime());
 var b = -canvasHeight*dateStart.getTime()/(dateEnd.getTime()-dateStart.getTime());
 
+var div = d3.select("body").append("div")
+                        .attr("class", "tooltip")
+                        .style("opacity", 0);
+
 var groups = svgContainer.selectAll("g")
                             .data(jsonCircles)
                             .enter()
                             .append("g")
-                            .attr("transform",function(d,i){return "translate(" + (d.status == "pending" ? a * (d.date2.getTime()-d.date1.getTime()) + margin : margin ) + "," + (d.status == "pending" ? a * (d.date2.getTime()+d.date1.getTime())/2 + b + a*(Math.random()/2-0.25)*(d.date2.getTime()-d.date1.getTime()) : a * d.date1.getTime() + b)+")"});
+                            .attr("transform",function(d,i){return "translate(" + (d.status == "pending" ? a * (d.date2.getTime()-d.date1.getTime()) + margin : margin ) + "," + (d.status == "pending" ? a * (d.date2.getTime()+d.date1.getTime())/2 + b + a*(Math.random()*(3/4)-0.5*(3/4))*(d.date2.getTime()-d.date1.getTime()) : a * d.date1.getTime() + b)+")"});                          
 
 var circleAttributes = groups.append("circle")
                         .attr("cx",0)
@@ -123,7 +142,20 @@ var circleAttributes = groups.append("circle")
                         .attr("r", function(d) { return 7; })
                         .style("stroke-width",2)
                         .style("stroke", function(d) {return (d.status == "pending" ? "lightgrey" : (d.status == "success" ? "lightgreen" : (d.status == "failure" ? "orangered" : (d.status == "partial failure" ? "orange" : "lightgrey"))))})
-                        .style("fill", function(d) { return (d.site == "CC40" ? "goldenrod" : (d.site == "K39A" ? "chocolate" : (d.site == "VAFB" ? "mediumpurple" : "grey"))); });
+                        .style("fill", function(d) { return (d.site == "CC40" ? "goldenrod" : (d.site == "K39A" ? "chocolate" : (d.site == "VAFB" ? "mediumpurple" : "grey"))); })
+                        .on("mouseover", function(d) {
+                            div.transition()
+                            .duration(100)
+                            .style("opacity", .9);
+                            div.html(d.status == "pending" ? d.date1.toUTCString() + "</br>" + d.date2.toUTCString() : d.date1.toUTCString())
+                            .style("left", (d3.event.pageX) + "px")
+                            .style("top", (d3.event.pageY - 28) + "px");
+                            })
+                            .on("mouseout", function(d) {
+                                div.transition()
+                                .duration(500)
+                                .style("opacity", 0);
+                                });
 var textAttributes = groups.append("text")
                         .attr("dx", 10)
                         .attr("dy", 4)
