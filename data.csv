@@ -1,3 +1,3 @@
-LoadDate, LoadEndDate, MissionName, LaunchStartTime, LaunchEndTime, Status, Site, Payload, Orbit, Customer
+LoadDate, LoadEndDate, MissionName (FK), LaunchStartTime, LaunchEndTime, Status, Site, Payload, Orbit, Customer
 20171125, 20171126, Bangabandhu-1, 20180201, 20180228, pending, LC-39A or SLC-40, Bangabandhu-1, GTO, BTRC
 20171126, 99991231, Bangabandhu-1, 20180301, 20180331, pending, LC-39A or SLC-40, Bangabandhu-1, GTO, BTRC
